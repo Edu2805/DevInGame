@@ -1,5 +1,9 @@
 package jogadores;
 
-public class Jogador {
 
+public class Jogador extends Personagem{
+
+	
+	
+	
 }

@@ -26,4 +26,10 @@ public class ExcecaoEntradaJogador extends Exception{
 		
 	}
 	
+	public boolean trataExcecaoNomeJogador(String nome) {
+
+		return nome != null && nome.matches("^[a-zA-Z ]*");
+	}
+
+	
 }

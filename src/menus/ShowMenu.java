@@ -3,12 +3,15 @@ package menus;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import danos.Dano;
 import excecoes.ExcecaoEntradaJogador;
 
 public class ShowMenu {
 
 	public void executaMenu() {
 
+		Dano exibeDanoJogador = new Dano();
+		
 		Scanner sc = new Scanner(System.in);
 
 		ExcecaoEntradaJogador tratamentoDeEntradasJogador = new ExcecaoEntradaJogador(null);
@@ -18,6 +21,8 @@ public class ShowMenu {
 		int pegarArmadurasDosInimigos = 0;
 		int escolhaBeberliquido = 0;
 		int atacarOuEsperarLider = 0;
+		
+		String nomeJogador = null;
 
 		System.out.println("####################################################################");
 		System.out.println("#                                                                  #");
@@ -26,7 +31,28 @@ public class ShowMenu {
 		System.out.println("#                                                                  #");
 		System.out.println("####################################################################\n");
 
-		System.out.println("A noite se aproxima, a lua já surge no céu, estrelas vão se acendendo, "
+		
+		while (true) {
+			System.out.print("Digite um nome para o seu personagem: ");
+			nomeJogador = sc.nextLine();
+
+			try {
+
+				if (!tratamentoDeEntradasJogador.trataExcecaoNomeJogador(nomeJogador)) {
+					throw new ExcecaoEntradaJogador(
+							"Digite corretamente um nome para o seu personagem, somente letras!");
+				} else {
+
+					break;
+				}
+
+			} catch (ExcecaoEntradaJogador e) {
+				System.out.println("\n" + e.getMessage() + "\n");
+			}
+		}
+		
+		
+		System.out.println("\nA noite se aproxima, a lua já surge no céu, estrelas vão se acendendo, "
 				+ "\ne sob a luz do crepúsculo você está prestes a entrar na fase final da \n"
 				+ "sua missão. Você olha para o portal à sua frente, e sabe que a partir\n"
 				+ "desse ponto, sua vida mudará para sempre.\n"
@@ -62,9 +88,12 @@ public class ShowMenu {
 				System.out.println(e.getMessage());
 			}
 		}
-
+		
+		System.out.println("\nBARRA DE DANO");
+		exibeDanoJogador.exibeDano();
+		
 		if (escolhaCaminhoJogador == 1) {
-
+			
 			System.out.println("Imagens daquela noite trágica invadem sua mente. Você nem precisa se \n"
 					+ "esforçar para lembrar, pois essas memórias estão sempre presentes, mesmo \n"
 					+ "que de pano de fundo, quando você tem outros pensamentos em foco, elas \n"
@@ -119,10 +148,12 @@ public class ShowMenu {
 			}
 		}
 
+		System.out.println("\nBARRA DE DANO");
+		exibeDanoJogador.exibeDano();
 		
 		if (escolhaCaminhoJogador == 1) {
 
-			System.out.println("\nVocê caminha, atento a todos os seus sentidos, por vários metros, até visualizar a \n"
+			System.out.println("Você caminha, atento a todos os seus sentidos, por vários metros, até visualizar a \n"
 					+ "frente uma fonte de luz, que você imagina ser a chama de uma tocha, vindo de dentro de uma porta aberta."
 					+ "\n"
 					+ "Você se pergunta se dentro dessa sala pode haver inimigos, ou alguma armadilha, e pondera sobre \n"
@@ -160,10 +191,15 @@ public class ShowMenu {
 								+ "Você ouve um ruído de mecanismos se movimentando, e uma escotilha se abre no teto atrás de você, \n"
 								+ "no corredor. Flechas voam da escotilha em sua direção, e você salta para dentro da sala, porém \n"
 								+ "uma delas te acerta na perna.\n");
+				
+				//mostrar dano
+				System.out.println("BARRA DE DANO");
+				exibeDanoJogador.jogadorTomaDanoFlecha(true);
 
 			} else if (escolhaComoPassarPelaPorta == 2) {
 
-				
+				System.out.println("\nBARRA DE DANO");
+				exibeDanoJogador.exibeDano();
 				
 				System.out.println(
 						"Você respira fundo e desata a correr em direção à sala. Quando passa pela porta, sente que pisou \n"
@@ -173,10 +209,11 @@ public class ShowMenu {
 								+ "armadilha que soltou flechas de uma escotilha aberta no teto, mas por sorte você entrou correndo e \n"
 								+ "conseguiu escapar desse ataque surpresa.\n");
 
-				// fazer barra de danos
-
 			} else {
 
+				System.out.println("\nBARRA DE DANO");
+				exibeDanoJogador.exibeDano();
+				
 				System.out.println(
 						"\nVocê se concentra e pula em direção à luz, saltando de antes da porta até o interior da sala.\n");
 
@@ -241,6 +278,9 @@ public class ShowMenu {
 						}
 					}
 					
+					System.out.println("\nBARRA DE DANO");
+					exibeDanoJogador.exibeDano();
+					
 					if(pegarArmadurasDosInimigos == 1) {
 						
 						System.out.println("\nVocê resolve usar os equipamentos do inimigo contra ele, e trocar algumas peças suas, \n"
@@ -254,8 +294,6 @@ public class ShowMenu {
 					} else {
 						
 						System.out.println("\nVocê decide que não precisa utilizar nada que venha das mãos do inimigo.\n");
-						
-						
 						
 					}
 					
@@ -278,7 +316,7 @@ public class ShowMenu {
 					if(!batalhaVencida) {
 						
 						//logica de batalha
-						
+						//barra de dano
 						System.out.println("Após derrotar o Alquimista, você olha em volta, tentando reconhecer alguma poção do estoque \n"
 								+ "do inimigo. Em uma mesa, você reconhece uma pequena garrafa de vidro contendo um líquido levemente rosado, \n"
 								+ "pega a garrafa e pondera se deve beber um gole.");
@@ -310,7 +348,10 @@ public class ShowMenu {
 						
 						if(escolhaBeberliquido == 1) {
 							
-							System.out.println("\nVocê se sente revigorado para seguir adiante!\n");
+							System.out.println("\nVocê se sente revigorado para seguir adiante!");
+							
+							System.out.println("\nBARRA DE DANO ESTÁ EM 100%");
+							exibeDanoJogador.jogadorBebePocaoRecuperaDano(true);
 							
 							//recuperar 100% dos pontos de vida do jogador
 							
@@ -427,6 +468,7 @@ public class ShowMenu {
 					+ "Você se volta para a noite lá fora e corre em direção à segurança.\n");
 
 		}
-
+		
+		sc.close();
 	}
 }
